@@ -24,6 +24,21 @@ class Student:
             total_grades += sum(course_grades)
             count += len(course_grades)
         return total_grades / count if count > 0 else 0
+    
+    def __lt__(self, other):
+        if not isinstance(other, Student):
+            return NotImplemented
+        return self._calculate_avg_grade() < other._calculate_avg_grade()
+    
+    def __gt__(self, other):
+        if not isinstance(other, Student):
+            return NotImplemented
+        return self._calculate_avg_grade() > other._calculate_avg_grade()
+    
+    def __eq__(self, other):
+        if not isinstance(other, Student):
+            return NotImplemented
+        return self._calculate_avg_grade() == other._calculate_avg_grade()
 
 
 class Mentor:
@@ -55,6 +70,21 @@ class Lecturer(Mentor):
         for grades in self.lecture_grades.values():
             all_grades.extend(grades)
         return sum(all_grades) / len(all_grades) if all_grades else 0
+    
+    def __lt__(self, other):
+        if not isinstance(other, Lecturer):
+            return NotImplemented
+        return self._calculate_avg_lecture_grade() < other._calculate_avg_lecture_grade()
+    
+    def __gt__(self, other):
+        if not isinstance(other, Lecturer):
+            return NotImplemented
+        return self._calculate_avg_lecture_grade() > other._calculate_avg_lecture_grade()
+    
+    def __eq__(self, other):
+        if not isinstance(other, Lecturer):
+            return NotImplemented
+        return self._calculate_avg_lecture_grade() == other._calculate_avg_lecture_grade()
 
 
 class Reviewer(Mentor):
@@ -75,15 +105,12 @@ best_student.finished_courses += ['Введение в программиров�
 cool_mentor = Mentor('Some', 'Buddy')
 print(cool_mentor)
 
-
 cool_lecturer = Lecturer('Some', 'Buddy')
 cool_lecturer.lecture_grades = {'Python': [9, 10, 9.8]}
 print(cool_lecturer)
 
-
 cool_reviewer = Reviewer('Some', 'Buddy')
 print(cool_reviewer)
-
 
 cool_reviewer.courses_attached += ['Python']
 cool_reviewer.rate_hw(best_student, 'Python', 10)
@@ -92,3 +119,16 @@ cool_reviewer.rate_hw(best_student, 'Python', 10)
 
 print(best_student)
 
+student1 = Student('Alice', 'Smith', 'female')
+student1.grades = {'Python': [9, 9, 10]}
+student2 = Student('Bob', 'Johnson', 'male')
+student2.grades = {'Python': [8, 8, 9]}
+
+print(student1 > student2)  
+
+lecturer1 = Lecturer('John', 'Doe')
+lecturer1.lecture_grades = {'Python': [9, 9, 10]}
+lecturer2 = Lecturer('Jane', 'Smith')
+lecturer2.lecture_grades = {'Python': [8, 8, 9]}
+
+print(lecturer1 > lecturer2)  
